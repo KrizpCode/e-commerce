@@ -13,7 +13,11 @@ const prisma = new PrismaClient();
 export const resolvers: IResolvers = {
 	Query: {
 		items: (): PrismaPromise<Item[]> => {
-			return prisma.item.findMany();
+			return prisma.item.findMany({
+				orderBy: {
+					id: 'asc',
+				},
+			});
 		},
 	},
 
