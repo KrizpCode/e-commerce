@@ -73,6 +73,15 @@ export type DeleteItemMutationVariables = Exact<{
 
 export type DeleteItemMutation = { __typename?: 'Mutation', deleteItem?: { __typename?: 'Item', id: number, title: string, description: string } | null | undefined };
 
+export type EditItemMutationVariables = Exact<{
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+}>;
+
+
+export type EditItemMutation = { __typename?: 'Mutation', editItem?: { __typename?: 'Item', id: number, title: string, description: string } | null | undefined };
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -292,3 +301,40 @@ export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
 export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
 export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
+export const EditItemDocument = gql`
+    mutation EditItem($id: Int!, $title: String!, $description: String!) {
+  editItem(id: $id, title: $title, description: $description) {
+    id
+    title
+    description
+  }
+}
+    `;
+export type EditItemMutationFn = Apollo.MutationFunction<EditItemMutation, EditItemMutationVariables>;
+
+/**
+ * __useEditItemMutation__
+ *
+ * To run a mutation, you first call `useEditItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editItemMutation, { data, loading, error }] = useEditItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useEditItemMutation(baseOptions?: Apollo.MutationHookOptions<EditItemMutation, EditItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditItemMutation, EditItemMutationVariables>(EditItemDocument, options);
+      }
+export type EditItemMutationHookResult = ReturnType<typeof useEditItemMutation>;
+export type EditItemMutationResult = Apollo.MutationResult<EditItemMutation>;
+export type EditItemMutationOptions = Apollo.BaseMutationOptions<EditItemMutation, EditItemMutationVariables>;

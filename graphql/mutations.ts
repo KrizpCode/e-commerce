@@ -19,3 +19,13 @@ export const REMOVE_ITEM = gql`
 		}
 	}
 `;
+
+export const EDIT_ITEM = gql`
+	mutation EditItem($id: Int!, $title: String!, $description: String!) {
+		editItem(id: $id, title: $title, description: $description) {
+			id
+			title
+			description
+		}
+	}
+`;
