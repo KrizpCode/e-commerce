@@ -1,18 +1,5 @@
 import { useGetItemsQuery } from '../graphql/generated';
-
-type Props = {
-	title: String;
-	description: String;
-};
-
-const Item = ({ title, description }: Props) => {
-	return (
-		<li className="flex flex-col items-center bg-green-500 p-2 m-2">
-			<h2 className="text-2xl font-semibold">{title}</h2>
-			<p className="text-lg">{description}</p>
-		</li>
-	);
-};
+import Item from './Item';
 
 const Items = () => {
 	const { loading, error, data } = useGetItemsQuery();
@@ -30,11 +17,7 @@ const Items = () => {
 			{data!.items.length > 0 && (
 				<ul className="flex flex-col items-center w-full">
 					{data!.items.map((itemData) => (
-						<Item
-							key={itemData!.id}
-							title={itemData!.title!}
-							description={itemData!.description!}
-						/>
+						<Item key={itemData!.id} {...itemData!} />
 					))}
 				</ul>
 			)}
