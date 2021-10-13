@@ -1,68 +1,17 @@
-import { gql, ApolloServer } from 'apollo-server-micro';
+import { ApolloServer } from 'apollo-server-micro';
 import Cors from 'micro-cors';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import { PrismaClient } from '@prisma/client';
+import { typeDefs } from '../../graphql/schema';
+import { resolvers } from '../../graphql/resolvers';
 
-const prisma = new PrismaClient();
-
-const typeDefs = gql`
-	type Item {
-		id: Int
-		title: String
-		description: String
-	}
-
-	type Query {
-		items: [Item]
-	}
-
-	type Mutation {
-		addItem(title: String!, description: String!): Item
-		editItem(id: Int!, title: String!, description: String!): Item
-		deleteItem(id: Int!): Item
-	}
-`;
-
-const resolvers = {
-	Query: {
-		items: () => {
-			return prisma.item.findMany();
-		},
-	},
-
-	Mutation: {
-		addItem: (
-			_parent: void,
-			{ title, description }: { title: string; description: string }
-		) => {
-			return prisma.item.create({ data: { title, description } });
-		},
-
-		editItem: (
-			_parent: void,
-			{
-				id,
-				title,
-				description,
-			}: { id: number; title: string; description: string }
-		) => {
-			return prisma.item.update({
-				where: { id },
-				data: { title, description },
-			});
-		},
-
-		deleteItem: (_parent: void, { id }: { id: number }) => {
-			return prisma.item.delete({
-				where: { id },
-			});
-		},
-	},
-};
-
-const apolloServer = new ApolloServer({
+const executableSchema = makeExecutableSchema({
 	typeDefs,
 	resolvers,
+});
+
+const apolloServer = new ApolloServer({
+	schema: executableSchema,
 });
 
 const cors = Cors();
