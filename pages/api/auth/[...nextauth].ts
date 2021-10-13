@@ -7,7 +7,9 @@ import { PrismaClient } from '@prisma/client';
 
 // const NextAuth = require('next-auth');
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
+
+import { prisma } from '../../../lib/prisma';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options

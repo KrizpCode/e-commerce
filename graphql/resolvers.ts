@@ -1,5 +1,7 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { PrismaClient, PrismaPromise } from '@prisma/client';
+import { PrismaPromise } from '@prisma/client';
+
+import { prisma } from '../lib/prisma';
 
 import {
 	Item,
@@ -7,8 +9,6 @@ import {
 	MutationEditItemArgs,
 	MutationDeleteItemArgs,
 } from './generated';
-
-const prisma = new PrismaClient();
 
 export const resolvers: IResolvers = {
 	Query: {
