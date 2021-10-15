@@ -8,12 +8,25 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex items-center justify-around w-full fixed bg-purple-600 text-white top-0 left-0 py-2 font-medium border-b-2 border-pink-200">
+    <div className="flex items-center justify-around w-full fixed bg-purple-600 text-white top-0 left-0 py-2 border-b-2 border-pink-200">
       {
         <>
-          <p>{`${
-            session ? `Signed in as ${session.user?.email}` : `Not signed in`
-          }`}</p>
+          <div className="flex items-center gap-2">
+            {session?.user && (
+              <img
+                className="rounded-full h-10 object-contain"
+                src={
+                  session.user.image
+                    ? session.user.image
+                    : 'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png'
+                }
+                alt="Profile Image"
+              />
+            )}
+            <p className="font-semibold">{`${
+              session ? `${session.user?.email}` : `Not signed in`
+            }`}</p>
+          </div>
           <button
             className="px-2 py-1 bg-pink-300 rounded font-bold hover:bg-pink-900"
             type="button"

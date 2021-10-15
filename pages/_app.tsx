@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 
+import '../styles/global.css';
 import 'tailwindcss/tailwind.css';
 
 const client = new ApolloClient({

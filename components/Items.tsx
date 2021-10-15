@@ -19,7 +19,7 @@ const Items = () => {
 
   return (
     <>
-      <div>
+      <div className="mb-3">
         <button
           className={`px-2 py-1 rounded ${listings && 'bg-pink-400'}`}
           onClick={() => setListings(true)}

@@ -13,7 +13,7 @@ export const resolvers: IResolvers = {
     items: async () => {
       const allItems = await prisma.item.findMany({
         orderBy: {
-          id: 'asc',
+          id: 'desc',
         },
         include: {
           seller: {
