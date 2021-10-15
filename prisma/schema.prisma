@@ -14,6 +14,12 @@ model Item {
   id Int @id @default(autoincrement())
   title String
   description String
+  price Float
+  posted DateTime @default(now())
+  category String
+  image String?
+  seller User @relation(fields: [sellerId], references: [id])
+  sellerId String
 }
 
 model Account {
@@ -53,6 +59,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  itemsForSale Item[]
 }
 
 model VerificationToken {
