@@ -131,9 +131,11 @@ const Item = ({
         <>
           <h2 className="text-2xl font-bold">{title}</h2>
           <p className="text-lg">{description}</p>
-          <p>{`${price}$`}</p>
+          <p className="font-semibold">{`${price}$`}</p>
           <p>{`Seller: ${seller.email}`}</p>
-          <p className="bg-green-500 px-2 rounded text-white">{category}</p>
+          <p className="bg-green-500 px-2 rounded text-white font-semibold">
+            {category}
+          </p>
           <img className="w-full object-contain" src={image!} alt={image!} />
           <div className="flex gap-3">
             <button

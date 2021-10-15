@@ -39,6 +39,14 @@ const AddItems = () => {
     window.location.reload();
   };
 
+  if (!session?.user?.email) {
+    return (
+      <p className="text-lg mb-5 font-semibold">
+        Selling an item requires a user to be logged in
+      </p>
+    );
+  }
+
   return (
     <form
       className="flex flex-col items-end py-4 px-10 gap-2 bg-blue-300 rounded mb-10"

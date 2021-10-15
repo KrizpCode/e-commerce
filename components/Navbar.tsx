@@ -8,7 +8,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex items-center justify-around w-full fixed bg-purple-600 text-white top-0 left-0 py-2 font-medium">
+    <div className="flex items-center justify-around w-full fixed bg-purple-600 text-white top-0 left-0 py-2 font-medium border-b-2 border-pink-200">
       {
         <>
           <p>{`${
