@@ -7,6 +7,8 @@ const Navbar = () => {
     return <h1>Loading user data....</h1>;
   }
 
+  console.log(session);
+
   return (
     <div className="flex items-center justify-around w-full fixed bg-purple-600 text-white top-0 left-0 py-2 border-b-2 border-pink-200">
       {

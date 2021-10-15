@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="flex flex-col justify-center items-center mt-20">
         <AddItems />
