@@ -12,8 +12,6 @@ const Home: NextPage = () => {
         return <h1>Loading user data....</h1>;
     }
 
-    console.log(session);
-
     return (
         <>
             <Head>
@@ -39,8 +37,10 @@ const Home: NextPage = () => {
                     </button>
                 </>
             )}
-            <AddItems />
-            <Items />
+            <div className="flex flex-col justify-center items-center">
+                <AddItems />
+                <Items />
+            </div>
         </>
     );
 };

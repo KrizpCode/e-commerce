@@ -2,27 +2,25 @@ import { useGetItemsQuery } from '../graphql/generated';
 import Item from './Item';
 
 const Items = () => {
-	const { loading, error, data } = useGetItemsQuery();
+    const { loading, error, data } = useGetItemsQuery();
 
-	if (loading) {
-		return <div>Loading</div>;
-	}
+    if (loading) {
+        return <div>Loading</div>;
+    }
 
-	if (error) {
-		return <div>{error.message}</div>;
-	}
+    if (error) {
+        return <div>{error.message}</div>;
+    }
 
-	return (
-		<>
-			{data!.items.length > 0 && (
-				<ul className="flex flex-col items-center w-full">
-					{data!.items.map((itemData) => (
-						<Item key={itemData!.id} {...itemData!} />
-					))}
-				</ul>
-			)}
-		</>
-	);
+    return (
+        <>
+            <ul className="flex flex-col items-center w-full">
+                {data?.items.map((itemData) => (
+                    <Item key={itemData!.id} {...itemData!} />
+                ))}
+            </ul>
+        </>
+    );
 };
 
 export default Items;

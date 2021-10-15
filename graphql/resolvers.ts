@@ -24,8 +24,6 @@ export const resolvers: IResolvers = {
                 },
             });
 
-            console.log(allItems);
-
             return allItems;
         },
     },
@@ -96,6 +94,9 @@ export const resolvers: IResolvers = {
         deleteItem: (_parent: void, { id }: MutationDeleteItemArgs) => {
             return prisma.item.delete({
                 where: { id },
+                include: {
+                    seller: true,
+                },
             });
         },
     },
