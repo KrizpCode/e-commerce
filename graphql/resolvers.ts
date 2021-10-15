@@ -16,7 +16,11 @@ export const resolvers: IResolvers = {
                     id: 'asc',
                 },
                 include: {
-                    seller: true,
+                    seller: {
+                        include: {
+                            itemsForSale: true,
+                        },
+                    },
                 },
             });
 
@@ -63,11 +67,29 @@ export const resolvers: IResolvers = {
 
         editItem: (
             _parent: void,
-            { id, title, description }: MutationEditItemArgs
+            {
+                id,
+                title,
+                description,
+                price,
+                category,
+                image = '',
+            }: MutationEditItemArgs
         ) => {
             return prisma.item.update({
-                where: { id },
-                data: { title, description },
+                where: {
+                    id,
+                },
+                data: {
+                    title,
+                    description,
+                    price,
+                    category,
+                    image,
+                },
+                include: {
+                    seller: true,
+                },
             });
         },
 
