@@ -12,6 +12,8 @@ const Home: NextPage = () => {
         return <h1>Loading user data....</h1>;
     }
 
+    console.log(session);
+
     return (
         <>
             <Head>

@@ -61,9 +61,16 @@ export const typeDefs = gql`
             price: Float!
             category: String!
             image: String
-            sellerId: String!
+            email: String!
         ): Item
-        editItem(id: Int!, title: String!, description: String!): Item
+        editItem(
+            id: Int!
+            title: String!
+            description: String!
+            price: Float!
+            category: String!
+            image: String
+        ): Item
         deleteItem(id: Int!): Item
     }
 `;

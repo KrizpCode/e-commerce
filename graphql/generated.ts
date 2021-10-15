@@ -59,9 +59,9 @@ export type Mutation = {
 export type MutationAddItemArgs = {
   category: Scalars['String'];
   description: Scalars['String'];
+  email: Scalars['String'];
   image?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
-  sellerId: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -72,8 +72,11 @@ export type MutationDeleteItemArgs = {
 
 
 export type MutationEditItemArgs = {
+  category: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
   title: Scalars['String'];
 };
 
@@ -109,27 +112,30 @@ export type AddItemMutationVariables = Exact<{
   price: Scalars['Float'];
   category: Scalars['String'];
   image?: Maybe<Scalars['String']>;
-  sellerId: Scalars['String'];
+  email: Scalars['String'];
 }>;
 
 
-export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number, title: string, description: string } | null | undefined };
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id: number, title: string, description: string, price: number, posted: string, category: string, image?: string | null | undefined, sellerId: string, seller: { __typename?: 'User', id: string, name?: string | null | undefined, image?: string | null | undefined } } | null | undefined };
 
 export type DeleteItemMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type DeleteItemMutation = { __typename?: 'Mutation', deleteItem?: { __typename?: 'Item', id: number, title: string, description: string } | null | undefined };
+export type DeleteItemMutation = { __typename?: 'Mutation', deleteItem?: { __typename?: 'Item', id: number, title: string, description: string, price: number, posted: string, category: string, image?: string | null | undefined, sellerId: string, seller: { __typename?: 'User', id: string, name?: string | null | undefined, image?: string | null | undefined } } | null | undefined };
 
 export type EditItemMutationVariables = Exact<{
   id: Scalars['Int'];
   title: Scalars['String'];
   description: Scalars['String'];
+  price: Scalars['Float'];
+  category: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
 }>;
 
 
-export type EditItemMutation = { __typename?: 'Mutation', editItem?: { __typename?: 'Item', id: number, title: string, description: string } | null | undefined };
+export type EditItemMutation = { __typename?: 'Mutation', editItem?: { __typename?: 'Item', id: number, title: string, description: string, price: number, posted: string, category: string, image?: string | null | undefined, sellerId: string, seller: { __typename?: 'User', id: string, name?: string | null | undefined, image?: string | null | undefined } } | null | undefined };
 
 export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -264,9 +270,9 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'category' | 'description' | 'price' | 'sellerId' | 'title'>>;
+  addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'category' | 'description' | 'email' | 'price' | 'title'>>;
   deleteItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationDeleteItemArgs, 'id'>>;
-  editItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationEditItemArgs, 'description' | 'id' | 'title'>>;
+  editItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationEditItemArgs, 'category' | 'description' | 'id' | 'price' | 'title'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -306,18 +312,28 @@ export type Resolvers<ContextType = any> = {
 
 
 export const AddItemDocument = gql`
-    mutation AddItem($title: String!, $description: String!, $price: Float!, $category: String!, $image: String, $sellerId: String!) {
+    mutation AddItem($title: String!, $description: String!, $price: Float!, $category: String!, $image: String, $email: String!) {
   addItem(
     title: $title
     description: $description
     price: $price
     category: $category
     image: $image
-    sellerId: $sellerId
+    email: $email
   ) {
     id
     title
     description
+    price
+    posted
+    category
+    image
+    seller {
+      id
+      name
+      image
+    }
+    sellerId
   }
 }
     `;
@@ -341,7 +357,7 @@ export type AddItemMutationFn = Apollo.MutationFunction<AddItemMutation, AddItem
  *      price: // value for 'price'
  *      category: // value for 'category'
  *      image: // value for 'image'
- *      sellerId: // value for 'sellerId'
+ *      email: // value for 'email'
  *   },
  * });
  */
@@ -358,6 +374,16 @@ export const DeleteItemDocument = gql`
     id
     title
     description
+    price
+    posted
+    category
+    image
+    seller {
+      id
+      name
+      image
+    }
+    sellerId
   }
 }
     `;
@@ -388,11 +414,28 @@ export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutati
 export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
 export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
 export const EditItemDocument = gql`
-    mutation EditItem($id: Int!, $title: String!, $description: String!) {
-  editItem(id: $id, title: $title, description: $description) {
+    mutation EditItem($id: Int!, $title: String!, $description: String!, $price: Float!, $category: String!, $image: String) {
+  editItem(
+    id: $id
+    title: $title
+    description: $description
+    price: $price
+    category: $category
+    image: $image
+  ) {
     id
     title
     description
+    price
+    posted
+    category
+    image
+    seller {
+      id
+      name
+      image
+    }
+    sellerId
   }
 }
     `;
@@ -414,6 +457,9 @@ export type EditItemMutationFn = Apollo.MutationFunction<EditItemMutation, EditI
  *      id: // value for 'id'
  *      title: // value for 'title'
  *      description: // value for 'description'
+ *      price: // value for 'price'
+ *      category: // value for 'category'
+ *      image: // value for 'image'
  *   },
  * });
  */

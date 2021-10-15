@@ -1,5 +1,4 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { PrismaPromise, Prisma } from '@prisma/client';
 
 import { prisma } from '../lib/prisma';
 
@@ -11,30 +10,55 @@ import {
 
 export const resolvers: IResolvers = {
     Query: {
-        items: () => {
-            return prisma.item.findMany({
+        items: async () => {
+            const allItems = await prisma.item.findMany({
                 orderBy: {
                     id: 'asc',
                 },
+                include: {
+                    seller: true,
+                },
             });
+
+            console.log(allItems);
+
+            return allItems;
         },
     },
 
     Mutation: {
-        addItem: (
+        addItem: async (
             _parent: void,
             {
                 title,
                 description,
                 price,
-                sellerId,
                 category,
                 image = '',
+                email,
             }: MutationAddItemArgs
         ) => {
-            return prisma.item.create({
-                data: { title, description, price, sellerId, category, image },
+            const seller = await prisma.user.findUnique({
+                where: {
+                    email,
+                },
             });
+
+            if (seller) {
+                return await prisma.item.create({
+                    data: {
+                        title,
+                        description,
+                        price,
+                        category,
+                        image,
+                        sellerId: seller.id,
+                    },
+                    include: {
+                        seller: true,
+                    },
+                });
+            }
         },
 
         editItem: (
