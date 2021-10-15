@@ -15,4 +15,17 @@ export const GET_ITEMS = gql`
       }
     }
   }
+
+  query getUserById($id: String!) {
+    user(id: $id) {
+      id
+      email
+      name
+      emailVerified
+      image
+      itemsForSale {
+        title
+      }
+    }
+  }
 `;

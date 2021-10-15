@@ -6,6 +6,7 @@ import {
   MutationAddItemArgs,
   MutationEditItemArgs,
   MutationDeleteItemArgs,
+  QueryUserArgs,
 } from './generated';
 
 export const resolvers: IResolvers = {
@@ -25,6 +26,19 @@ export const resolvers: IResolvers = {
       });
 
       return allItems;
+    },
+
+    user: async (_parent: void, { id }: QueryUserArgs) => {
+      const getUser = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          itemsForSale: true,
+        },
+      });
+
+      return getUser;
     },
   },
 
