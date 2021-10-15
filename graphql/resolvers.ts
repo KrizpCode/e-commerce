@@ -1,51 +1,56 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { PrismaPromise } from '@prisma/client';
+import { PrismaPromise, Prisma } from '@prisma/client';
 
 import { prisma } from '../lib/prisma';
 
 import {
-	Item,
-	MutationAddItemArgs,
-	MutationEditItemArgs,
-	MutationDeleteItemArgs,
+    MutationAddItemArgs,
+    MutationEditItemArgs,
+    MutationDeleteItemArgs,
 } from './generated';
 
 export const resolvers: IResolvers = {
-	Query: {
-		items: (): PrismaPromise<Item[]> => {
-			return prisma.item.findMany({
-				orderBy: {
-					id: 'asc',
-				},
-			});
-		},
-	},
+    Query: {
+        items: () => {
+            return prisma.item.findMany({
+                orderBy: {
+                    id: 'asc',
+                },
+            });
+        },
+    },
 
-	Mutation: {
-		addItem: (
-			_parent: void,
-			{ title, description }: MutationAddItemArgs
-		): PrismaPromise<Item> => {
-			return prisma.item.create({ data: { title, description } });
-		},
+    Mutation: {
+        addItem: (
+            _parent: void,
+            {
+                title,
+                description,
+                price,
+                sellerId,
+                category,
+                image = '',
+            }: MutationAddItemArgs
+        ) => {
+            return prisma.item.create({
+                data: { title, description, price, sellerId, category, image },
+            });
+        },
 
-		editItem: (
-			_parent: void,
-			{ id, title, description }: MutationEditItemArgs
-		): PrismaPromise<Item> => {
-			return prisma.item.update({
-				where: { id },
-				data: { title, description },
-			});
-		},
+        editItem: (
+            _parent: void,
+            { id, title, description }: MutationEditItemArgs
+        ) => {
+            return prisma.item.update({
+                where: { id },
+                data: { title, description },
+            });
+        },
 
-		deleteItem: (
-			_parent: void,
-			{ id }: MutationDeleteItemArgs
-		): PrismaPromise<Item> => {
-			return prisma.item.delete({
-				where: { id },
-			});
-		},
-	},
+        deleteItem: (_parent: void, { id }: MutationDeleteItemArgs) => {
+            return prisma.item.delete({
+                where: { id },
+            });
+        },
+    },
 };

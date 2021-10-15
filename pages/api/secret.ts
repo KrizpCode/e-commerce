@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	const session = await getSession({ req });
+    const session = await getSession({ req });
 
-	if (session) {
-		res.send({ content: 'Authorized' });
-	} else {
-		res.send({ error: 'Unauthorized' });
-	}
+    if (session) {
+        res.send({ content: 'Authorized' });
+    } else {
+        res.send({ error: 'Unauthorized' });
+    }
 };
