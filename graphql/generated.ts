@@ -140,7 +140,7 @@ export type EditItemMutation = { __typename?: 'Mutation', editItem?: { __typenam
 export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetItemsQuery = { __typename?: 'Query', items: Array<{ __typename?: 'Item', id: number, title: string, description: string, price: number, category: string, image?: string | null | undefined, seller: { __typename?: 'User', email?: string | null | undefined } } | null | undefined> };
+export type GetItemsQuery = { __typename?: 'Query', items: Array<{ __typename?: 'Item', id: number, title: string, description: string, price: number, category: string, image?: string | null | undefined, seller: { __typename?: 'User', id: string, email?: string | null | undefined } } | null | undefined> };
 
 
 
@@ -480,6 +480,7 @@ export const GetItemsDocument = gql`
     category
     image
     seller {
+      id
       email
     }
   }
