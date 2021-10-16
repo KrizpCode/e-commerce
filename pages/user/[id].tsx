@@ -8,7 +8,7 @@ const User = () => {
 
   const { loading, error, data } = useGetUserByIdQuery({
     variables: {
-      id,
+      id: id as string,
     },
   });
 
@@ -23,6 +23,7 @@ const User = () => {
   return (
     <div className="mt-20">
       <p>Getting information from User ID={id}</p>
+      {data && <p>{data.user?.email}</p>}
     </div>
   );
 };
