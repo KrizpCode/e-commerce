@@ -43,4 +43,19 @@ public class ProductRepository(ECommerceDbContext dbContext) : IProductRepositor
         
         return existingProduct;
     }
+
+    public async Task<Product?> DeleteProduct(int productId)
+    {
+        var product = await GetProductById(productId);
+
+        if (product is null)
+        {
+            return null;
+        }
+        
+        dbContext.Products.Remove(product);
+        await dbContext.SaveChangesAsync();
+        
+        return product;
+    }
 }

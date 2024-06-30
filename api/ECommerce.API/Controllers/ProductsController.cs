@@ -51,4 +51,17 @@ public class ProductsController(IProductRepository productRepo) : ControllerBase
         
         return Ok(updatedProduct);
     }
+    
+    [HttpDelete("{productId:int}")]
+    public async Task<IActionResult> DeleteProduct(int productId)
+    {
+        var product = await productRepo.DeleteProduct(productId);
+        
+        if (product is null)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
 }
