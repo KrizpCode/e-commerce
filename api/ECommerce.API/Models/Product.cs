@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerce.API.Models;
 
-[Table(("Products"))]
+[Table("Products")]
 public class Product
 {
     public int Id { get; set; }
