@@ -1,4 +1,6 @@
-﻿using ECommerce.API.Interfaces;
+﻿using ECommerce.API.DTOs;
+using ECommerce.API.Interfaces;
+using ECommerce.API.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
@@ -26,5 +28,14 @@ public class ProductsController(IProductRepository productRepo) : ControllerBase
         }
         
         return Ok(product);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto request)
+    {
+        var product = request.ToProductFromCreateDto();
+        await productRepo.CreateProduct(product);
+        
+        return CreatedAtAction(nameof(GetProductById), new { productId = product.Id }, product);
     }
 }

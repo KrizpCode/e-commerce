@@ -16,4 +16,12 @@ public class ProductRepository(ECommerceDbContext dbContext) : IProductRepositor
     {
         return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
     }
+
+    public async Task<Product> CreateProduct(Product product)
+    {
+        await dbContext.Products.AddAsync(product);
+        await dbContext.SaveChangesAsync();
+
+        return product;
+    }
 }
