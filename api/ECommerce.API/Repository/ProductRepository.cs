@@ -7,10 +7,13 @@ namespace ECommerce.API.Repository;
 
 public class ProductRepository(ECommerceDbContext dbContext) : IProductRepository
 {
-    private readonly ECommerceDbContext _dbContext = dbContext;
-
     public async Task<List<Product>> GetAllProducts()
     {
-        return await _dbContext.Products.ToListAsync();
+        return await dbContext.Products.ToListAsync();
+    }
+
+    public async Task<Product?> GetProductById(int productId)
+    {
+        return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
     }
 }

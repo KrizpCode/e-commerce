@@ -14,4 +14,17 @@ public class ProductsController(IProductRepository productRepo) : ControllerBase
         
         return Ok(products);
     }
+    
+    [HttpGet("{productId:int}")]
+    public async Task<IActionResult> GetProductById(int productId)
+    {
+        var product = await productRepo.GetProductById(productId);
+        
+        if (product is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(product);
+    }
 }

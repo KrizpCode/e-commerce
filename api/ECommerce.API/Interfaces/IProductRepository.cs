@@ -5,4 +5,5 @@ namespace ECommerce.API.Interfaces;
 public interface IProductRepository
 {
     Task<List<Product>> GetAllProducts();
+    Task<Product?> GetProductById(int productId);
 }
