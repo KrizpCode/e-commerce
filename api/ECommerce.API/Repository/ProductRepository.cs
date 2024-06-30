@@ -1,4 +1,5 @@
 ﻿using ECommerce.API.Data;
+using ECommerce.API.DTOs;
 using ECommerce.API.Interfaces;
 using ECommerce.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -23,5 +24,23 @@ public class ProductRepository(ECommerceDbContext dbContext) : IProductRepositor
         await dbContext.SaveChangesAsync();
 
         return product;
+    }
+
+    public async Task<Product?> UpdateProduct(int productId, UpdateProductRequestDto productDto)
+    {
+        var existingProduct = await GetProductById(productId);
+        
+        if (existingProduct is null)
+        {
+            return null;
+        }
+        
+        existingProduct.Name = productDto.Name;
+        existingProduct.Description = productDto.Description;
+        existingProduct.Price = productDto.Price;
+        
+        await dbContext.SaveChangesAsync();
+        
+        return existingProduct;
     }
 }

@@ -38,4 +38,17 @@ public class ProductsController(IProductRepository productRepo) : ControllerBase
         
         return CreatedAtAction(nameof(GetProductById), new { productId = product.Id }, product);
     }
+    
+    [HttpPut("{productId:int}")]
+    public async Task<IActionResult> UpdateProduct(int productId, [FromBody] UpdateProductRequestDto request)
+    {
+        var updatedProduct = await productRepo.UpdateProduct(productId, request);
+        
+        if (updatedProduct is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(updatedProduct);
+    }
 }
