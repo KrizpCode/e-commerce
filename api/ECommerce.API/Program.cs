@@ -1,6 +1,8 @@
 using ECommerce.API.Data;
 using ECommerce.API.Interfaces;
 using ECommerce.API.Repository;
+using ECommerce.API.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<ECommerceDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductRequestDtoValidator>(ServiceLifetime.Transient);
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
